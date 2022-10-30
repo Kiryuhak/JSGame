@@ -5,7 +5,7 @@ var $result = document.querySelector('#result');
 var $timeHeader = document.querySelector('#time-header');
 var $resultHeader = document.querySelector('#result-header');
 var $gameTime = document.querySelector('#game-time');
-
+var colors = ['red', 'green', 'blue', 'yellow', 'pink', 'purple', 'black'];
 var score = 0;
 var isGameStarted = false;
 
@@ -21,14 +21,13 @@ function hide($el) {
     $el.classList.add('hide');
 }
 
-
 function startGame() {
     score = 0;
     setGameTime();
     $gameTime.setAttribute('disabled', 'true');
     isGameStarted = true;
     $game.style.backgroundColor = '#fff';
-    hide($start)
+    hide($start);
 
     // Время игры:
     var interval = setInterval(function() {
@@ -83,16 +82,18 @@ function renderBox(){
     var gameSize = $game.getBoundingClientRect();
     var maxTop = gameSize.height - boxSize;
     var maxLeft = gameSize.width - boxSize;
+    // [1, 2, 3] -> length == 3
+    var randomColorIndex = getRandom(0, colors.length);
+
     // console.log(gameSize); // Узнаем размер игрового поля
 
     box.style.height = box.style.width = boxSize + 'px';
     box.style.position = 'absolute';
-    box.style.backgroundColor = '#000';
+    box.style.backgroundColor = colors[randomColorIndex];
     box.style.top = getRandom(0, maxTop) + 'px';
     box.style.left = getRandom(0, maxLeft) + 'px'; 
     box.style.cursor = 'pointer';
     box.setAttribute('data-box', 'true');
-
     $game.insertAdjacentElement('afterbegin', box);
 
 }
