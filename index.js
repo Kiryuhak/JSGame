@@ -13,17 +13,22 @@ $start.addEventListener('click', startGame);
 $game.addEventListener('click', handleBoxClick);
 $gameTime.addEventListener('input', setGameTime);
 
+function show($el) {
+    $el.classList.remove('hide');
+}
+
+function hide($el) {
+    $el.classList.add('hide');
+}
+
 
 function startGame() {
     score = 0;
     setGameTime();
     $gameTime.setAttribute('disabled', 'true');
-
-    $timeHeader.classList.remove("hide");
-    $resultHeader.classList.add("hide");
     isGameStarted = true;
     $game.style.backgroundColor = '#fff';
-    $start.classList.add('hide');
+    hide($start)
 
     // Время игры:
     var interval = setInterval(function() {
@@ -46,24 +51,25 @@ function setGameScore() {
 function setGameTime() {
     var time = +$gameTime.value;
     $time.textContent = time.toFixed(1); 
+    show($timeHeader);
+    hide($resultHeader);
 }
 
 function endGame() {
     isGameStarted = false;
     setGameScore();
     $gameTime.removeAttribute('disabled');
-    $start.classList.remove("hide");
+    show($start);
     $game.innerHTML = ""; // чистка квадрата
     $game.style.backgroundColor = "#ccc";
-    $timeHeader.classList.add("hide");
-    $resultHeader.classList.remove("hide");
+    hide($timeHeader);
+    show($resultHeader);
 }
 
 function handleBoxClick(event) {
     if(!isGameStarted) {
         return;
     }
-    // console.log(event.target.dataset);
     if (event.target.dataset.box) {
         score++;
         renderBox();
@@ -86,7 +92,7 @@ function renderBox(){
     box.style.left = getRandom(0, maxLeft) + 'px'; 
     box.style.cursor = 'pointer';
     box.setAttribute('data-box', 'true');
-    
+
     $game.insertAdjacentElement('afterbegin', box);
 
 }
